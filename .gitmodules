@@ -1,3 +1,6 @@
 [submodule "courgette"]
 	path = courgette
 	url = https://chromium.googlesource.com/chromium/src/courgette
+[submodule "base"]
+	path = base
+	url = https://chromium.googlesource.com/chromium/src/base
