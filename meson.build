@@ -1,5 +1,4 @@
 project('courgette', 'cpp', 'c')
-git = find_program('git')
 
 #
 # libevent
@@ -414,6 +413,7 @@ base = library('chromium', base_src,
   version : '0.0.1',
 )
 
+find = find_program('find')
 base_subdirs = ['/', '/numerics', '/task', '/i18n', '/threading',
             '/nix', '/sampling_heap_profiler', '/power_monitor',
             '/posix', '/system_monitor', '/profiler', '/metrics',
@@ -422,11 +422,9 @@ base_subdirs = ['/', '/numerics', '/task', '/i18n', '/threading',
             '/json', '/containers', '/allocator', '/process',
             '/test', '/time']
 foreach base_sd : base_subdirs
-  base_headers = run_command(git,
-    ['--git-dir=@0@/.git'.format(meson.source_root()),
-     'ls-files', '--recurse-submodules',
-     '--',
-     'base@0@/*.h'.format(base_sd)]
+  base_headers = run_command(find,
+    ['@0@/base@1@'.format(meson.source_root(), base_sd),
+     '-maxdepth', '1', '-name', '*.h']
   )
   install_headers(base_headers.stdout().split(), subdir : 'chromium/base@0@'.format(base_sd))
 endforeach
