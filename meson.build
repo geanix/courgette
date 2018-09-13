@@ -1,4 +1,5 @@
 project('courgette', 'cpp', 'c')
+git = find_program('git')
 
 #
 # libevent
@@ -413,6 +414,24 @@ base = library('chromium', base_src,
   version : '0.0.1',
 )
 
+base_subdirs = ['/', '/numerics', '/task', '/i18n', '/threading',
+            '/nix', '/sampling_heap_profiler', '/power_monitor',
+            '/posix', '/system_monitor', '/profiler', '/metrics',
+            '/debug', '/files', '/memory', '/trace_event',
+            '/timer', '/synchronization', '/message_loop', '/strings',
+            '/json', '/containers', '/allocator', '/process',
+            '/test', '/time']
+foreach base_sd : base_subdirs
+  base_headers = run_command(git,
+    ['--git-dir=@0@/.git'.format(meson.source_root()),
+     'ls-files', '--recurse-submodules',
+     '--',
+     'base@0@/*.h'.format(base_sd)]
+  )
+  install_headers(base_headers.stdout().split(), subdir : 'base@0@'.format(base_sd))
+endforeach
+
+
 #
 # lzma_sdk
 #
@@ -505,6 +524,10 @@ courgette_src = [
   'courgette/rel32_finder_x86.cc',
   'courgette/simple_delta.cc',
 ]
+
+install_headers('courgette/courgette.h', 'courgette/courgette_flow.h',
+  subdir : 'courgette'
+)
 
 courgette = library('courgette', courgette_src,
   link_with : [base, courgette_common, bsdiff, divsufsort],
