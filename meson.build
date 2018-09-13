@@ -428,9 +428,10 @@ foreach base_sd : base_subdirs
      '--',
      'base@0@/*.h'.format(base_sd)]
   )
-  install_headers(base_headers.stdout().split(), subdir : 'base@0@'.format(base_sd))
+  install_headers(base_headers.stdout().split(), subdir : 'chromium/base@0@'.format(base_sd))
 endforeach
-
+install_headers('build/buildflag.h', 'build/build_config.h', 'build/config.h', subdir : 'chromium/build')
+install_subdir('gen/base', install_dir : 'include/chromium')
 
 #
 # lzma_sdk
@@ -525,9 +526,7 @@ courgette_src = [
   'courgette/simple_delta.cc',
 ]
 
-install_headers('courgette/courgette.h', 'courgette/courgette_flow.h',
-  subdir : 'courgette'
-)
+install_headers('courgette/courgette.h', subdir : 'chromium/courgette')
 
 courgette = library('courgette', courgette_src,
   link_with : [base, courgette_common, bsdiff, divsufsort],
