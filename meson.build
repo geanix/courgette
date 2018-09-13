@@ -431,6 +431,14 @@ endforeach
 install_headers('build/buildflag.h', 'build/build_config.h', 'build/config.h', subdir : 'chromium/build')
 install_subdir('gen/base', install_dir : 'include/chromium')
 
+base_pc = import('pkgconfig')
+base_pc.generate(libraries : base,
+                 version : '0.1',
+                 name : 'libchromium',
+                 filebase : 'chromium',
+                 subdirs : 'chromium',
+                 description : 'Chromiums base library')
+
 #
 # lzma_sdk
 #
@@ -532,6 +540,14 @@ courgette = library('courgette', courgette_src,
   install : true,
   version : '0.0.1',
 )
+
+courgette_pc = import('pkgconfig')
+courgette_pc.generate(libraries : courgette,
+                      version : '0.1',
+                      name : 'libcourgette',
+                      filebase : 'courgette',
+                      subdirs : 'chromium',
+                      description : 'Chromiums courgette library')
 
 executable('courgette_minimal_tool', 'courgette/courgette_minimal_tool.cc',
   link_with : courgette,
