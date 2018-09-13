@@ -1,4 +1,5 @@
 project('courgette', 'cpp', 'c')
+find = find_program('find')
 
 #
 # libevent
@@ -413,7 +414,6 @@ base = library('chromium', base_src,
   version : '0.0.1',
 )
 
-find = find_program('find')
 base_subdirs = ['/', '/numerics', '/task', '/i18n', '/threading',
             '/nix', '/sampling_heap_profiler', '/power_monitor',
             '/posix', '/system_monitor', '/profiler', '/metrics',
@@ -532,7 +532,11 @@ courgette_src = [
   'courgette/simple_delta.cc',
 ]
 
-install_headers('courgette/courgette.h', subdir : 'chromium/courgette')
+courgette_headers = run_command(find,
+  ['@0@/courgette'.format(meson.source_root()),
+   '-maxdepth', '1', '-name', '*.h']
+)
+install_headers(courgette_headers.stdout().split(), subdir : 'chromium/courgette')
 
 courgette = library('courgette', courgette_src,
   link_with : [base, courgette_common, bsdiff, divsufsort],
