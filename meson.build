@@ -409,6 +409,8 @@ base = library('chromium', base_src,
   link_with : [event, xdg_mime, xdg_user_dirs],
   dependencies : base_deps,
   include_directories : base_dirs,
+  install : true,
+  version : '0.0.1',
 )
 
 #
@@ -507,12 +509,16 @@ courgette_src = [
 courgette = library('courgette', courgette_src,
   link_with : [base, courgette_common, bsdiff, divsufsort],
   cpp_args : courgette_args,
+  install : true,
+  version : '0.0.1',
 )
 
 executable('courgette_minimal_tool', 'courgette/courgette_minimal_tool.cc',
   link_with : courgette,
+  install : true,
 )
 
 executable('courgette', 'courgette/courgette_tool.cc',
   link_with : [base, courgette],
+  install : true,
 )
