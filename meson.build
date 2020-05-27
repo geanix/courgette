@@ -54,7 +54,7 @@ xdg_user_dirs = static_library('xdg_user_dirs', 'base/third_party/xdg_user_dirs/
 cpp = meson.get_compiler('cpp')
 
 base_dirs = include_directories('gen')
-base_args = ['-include', 'build/config.h', '-Wno-non-virtual-dtor']
+base_args = ['-include', 'build/config.h', '-Wno-non-virtual-dtor', '-include', 'string']
 base_deps = [
   dependency('threads'),
   cpp.find_library('dl'),
