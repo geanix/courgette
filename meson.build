@@ -432,7 +432,7 @@ install_headers('build/buildflag.h', 'build/build_config.h', 'build/config.h', s
 install_subdir('gen/base', install_dir : 'include/chromium')
 
 base_pc = import('pkgconfig')
-base_pc.generate(libraries : base,
+base_pc.generate(base,
                  version : '0.1',
                  name : 'libchromium',
                  filebase : 'chromium',
