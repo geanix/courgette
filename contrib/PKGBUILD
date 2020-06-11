@@ -1,6 +1,6 @@
 pkgname='courgette'
 pkgver=158903
-pkgrel=1
+pkgrel=2
 pkgdesc='Binary diff tool that knows about assembly'
 arch=('x86_64')
 url='https://www.chromium.org/developers/design-documents/software-updates-courgette'
@@ -12,11 +12,11 @@ sha256sums=('SKIP')
 prepare() {
   cd $pkgname
   git submodule update --init
-  meson out
 }
 
 build() {
   cd $pkgname
+  arch-meson out
   ninja -C out
 }
 
